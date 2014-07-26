@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="../bookmark-card/bookmark-card.html">
+
+<polymer-element name="bookmark-list" attributes="token">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+      }
+      bookmark-card {
+        margin-bottom: 30px;
+      }
+    </style>
+
+    <!-- jsonp.jit.su website is temporarily used as saved.io does not implement CORD -->
+    <core-ajax
+    auto
+    url="http://jsonp.jit.su/?callback=&url=http%3A%2F%2Fdevapi.saved.io%2Fv1%2Fbookmarks%26token={{token}}"
+    handleAs="json"
+    response="{{bookmarks}}"></core-ajax>
+    
+    <div layout vertical center>
+      <template repeat="{{bookmark in bookmarks}}">
+        <bookmark-card id="{{bookmark.bk_id}}">
+          <h2>{{bookmark.title}}</h2>
+        </bookmark-card>
+      </template>
+    </div>
+  </template>
+
+  <script>
+  Polymer('bookmark-list', {
+      bookmarksChanged: function(oldValue) {
+          console.log(this);
+      }
+  });
+  </script>
+
+</polymer-element>

@@ -5,53 +5,12 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <script src="bower_components/platform/platform.js"></script>
     <link rel="import" href="bower_components/font-roboto/roboto.html">
-    <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
-    <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
-    <link rel="import" href="bower_components/core-animated-pages/core-animated-pages.html">
-    <link rel="import" href="bower_components/core-animated-pages/transitions/slide-from-right.html">
+    <link rel="import" href="components/bookmark-app/bookmark-app.html">
     <link rel="stylesheet" href="theme.css" shim-shadowdom>
   </head>
 
   <body unresolved touch-action="auto">
-    <core-header-panel>
-      <core-toolbar>
-        <paper-tabs id="tabs" selected="categories" self-end>
-          <paper-tab name="categories">CATEGORIES</paper-tab>
-          <paper-tab name="bookmarks">BOOKMARKS</paper-tab>
-        </paper-tabs>
-      </core-toolbar>
-      <core-animated-pages transitions="slide-from-right">
-        <section id="categories">
-          <div layout vertical center center-justified>
-            <div>1</div>
-          </div>
-        </section>
-        <section id="bookmarks">
-          <div layout vertical center center-justified>
-            <div>2</div>
-          </div>
-        </section>
-      </core-animated-pages>
-    </core-header-panel>
-    <script>
-      var tabs = document.querySelector('paper-tabs');
-      var pages = document.querySelector('core-animated-pages');
-
-      tabs.addEventListener('core-select', function() {
-        switchPage(tabs.selected);
-      });
-
-      function switchPage(pageId){
-        var tagetPage = document.getElementById(pageId);
-        var indexPage = getChildNumber(tagetPage);
-        pages.selected = indexPage;
-      }
-
-      function getChildNumber(node) {
-        console.log(node.parentNode.children);
-        return Array.prototype.indexOf.call(node.parentNode.children, node);
-      }
-
-    </script>
+    <!-- Find your token on http://saved.io/api.php -->
+    <bookmark-app token="YOUR_TOKEN"></bookmark-app>
   </body>
 </html>

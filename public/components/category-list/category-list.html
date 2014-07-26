@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="../category-card/category-card.html">
+
+<polymer-element name="category-list" attributes="token">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+      }
+      category-card {
+        margin-bottom: 30px;
+      }
+    </style>
+
+    <!-- jsonp.jit.su website is temporarily used as saved.io does not implement CORD -->
+    <core-ajax
+    auto
+    url="http://jsonp.jit.su/?callback=&url=http%3A%2F%2Fdevapi.saved.io%2Fv1%2Flists%26token={{token}}"
+    handleAs="json"
+    response="{{categories}}"></core-ajax>
+    
+    <div layout vertical center>
+      <template repeat="{{category in categories}}">
+        <category-card id="{{category.id}}">
+          <h2>{{category.name}}</h2>
+        </category-card>
+      </template>
+    </div>
+  </template>
+
+  <script>
+  Polymer('category-list', {
+      categoriesChanged: function(oldValue) {
+          console.log(this);
+      }
+  });
+  </script>
+
+</polymer-element>

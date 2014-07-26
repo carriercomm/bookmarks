@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/slide-from-right.html">
+<link rel="import" href="../category-list/category-list.html">
+<link rel="import" href="../bookmark-list/bookmark-list.html">
+
+<polymer-element name="bookmark-app" attributes="token">
+  <template>
+    <core-header-panel>
+      <core-toolbar>
+        <paper-tabs id="tabs" selected="categories" self-end>
+          <paper-tab name="categories">CATEGORIES</paper-tab>
+          <paper-tab name="bookmarks">BOOKMARKS</paper-tab>
+        </paper-tabs>
+      </core-toolbar>
+      <core-animated-pages transitions="slide-from-right">
+        <section id="categories">
+          <div layout vertical center class="container">
+            <category-list token="{{token}}"></category-list>
+          </div>
+        </section>
+        <section id="bookmarks">
+          <div layout vertical center class="container">
+            <bookmark-list token="{{token}}"></bookmark-list>
+          </div>
+        </section>
+      </core-animated-pages>
+    </core-header-panel>
+  </template>
+  <script>
+
+  Polymer('bookmark-app', {
+    ready : function() {
+      var _this = this;
+
+      this.tabs = this.shadowRoot.querySelector('paper-tabs');
+      this.pages = this.shadowRoot.querySelector('core-animated-pages');
+
+      this.tabs.addEventListener('core-select', function() {
+        _this.switchPage(_this.tabs.selected);
+      });
+    },
+    switchPage : function(pageId) {
+      var tagetPage = this.shadowRoot.getElementById(pageId);
+      var indexPage = getChildNumber(tagetPage);
+      
+      this.pages.selected = indexPage;
+    }
+
+  });
+
+  function getChildNumber(node) {
+    return Array.prototype.indexOf.call(node.parentNode.children, node);
+  }
+
+  </script>
+</polymer-element>

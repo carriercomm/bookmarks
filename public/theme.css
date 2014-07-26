@@ -31,12 +31,9 @@ core-animated-pages{
   height: 100%;
 }
 
-core-animated-pages section>div {
-  height: 100%;
-}
-
 .container {
   width: 80%;
+  height: 100%;
   margin: 50px auto;
 }
 

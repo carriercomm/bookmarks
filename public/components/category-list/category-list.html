@@ -1,5 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/slide-up.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/list-cascade.html">
 <link rel="import" href="../category-card/category-card.html">
 
 <polymer-element name="category-list" attributes="token">
@@ -12,6 +15,13 @@
       category-card {
         margin-bottom: 30px;
       }
+      category-list{
+        height: 100%;
+      }
+      category-list #single-category div {
+        width: 100%;
+        background: tomato;
+      }
     </style>
 
     <!-- jsonp.jit.su website is temporarily used as saved.io does not implement CORD -->
@@ -21,20 +31,47 @@
     handleAs="json"
     response="{{categories}}"></core-ajax>
     
-    <div layout vertical center>
-      <template repeat="{{category in categories}}">
-        <category-card id="{{category.id}}">
-          <h2>{{category.name}}</h2>
-        </category-card>
-      </template>
-    </div>
+    <core-animated-pages selected="{{page}}" transitions="hero-transition slide-up slide-down cross-fade list-cascade" on-core-animated-pages-transition-end="{{complete}}">
+
+      <section id="list-categories">
+        <template repeat="{{category in categories}}">
+          <category-card id="{{category.id}}" on-tap="{{openCategory}}" hero-id="category_{{category.id}}" hero flex>
+            <h2>{{category.name}}</h2>
+          </category-card>
+        </template>
+      </section>
+
+      <section layout vertical center id="single-category">
+        <div hero-id="category" hero flex>
+          <h1>Test</h1>
+        </div>
+      </section>
+
+    </core-animated-pages>
   </template>
 
   <script>
   Polymer('category-list', {
-      categoriesChanged: function(oldValue) {
-          console.log(this);
-      }
+    page: 0,
+    categoriesChanged : function(oldValue) {
+        console.log(this);
+    },
+    openCategory : function(evt){
+      evt.preventDefault();
+      var category_id = evt.currentTarget.id;
+      var hero_id = evt.currentTarget.getAttribute('hero-id');
+
+      var single_category = this.shadowRoot.querySelector('#single-category>div');
+      single_category.setAttribute('hero-id', hero_id);
+      this.switchPage.call(this, 'single-category');
+    },
+    switchPage : function(pageId) {
+      console.log(pageId);
+      var tagetPage = this.shadowRoot.getElementById(pageId);
+      var indexPage = getChildNumber(tagetPage);
+      
+      this.page = indexPage;
+    }
   });
   </script>
 

@@ -32,13 +32,21 @@ core-animated-pages{
 }
 
 .container {
-  width: 80%;
   height: 100%;
+}
+
+.container #list-categories {
+  width: 80%;
+  margin: 50px auto;
+}
+
+.container #single-category{
+  max-width: 800px;
   margin: 50px auto;
 }
 
 @media (min-width: 481px) {
-  .container {
+  .container #list-categories {
     width: 400px;
   }
 }

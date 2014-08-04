@@ -21,13 +21,13 @@
     handleAs="json"
     response="{{bookmarks}}"></core-ajax>
     
-    <div layout vertical center>
+    <section id="list-bookmarks">
       <template repeat="{{bookmark in bookmarks}}">
         <bookmark-card id="{{bookmark.bk_id}}">
           <h2>{{bookmark.title}}</h2>
         </bookmark-card>
       </template>
-    </div>
+    </section>
   </template>
 
   <script>

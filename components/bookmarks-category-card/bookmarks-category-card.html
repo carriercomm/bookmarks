@@ -1,0 +1,15 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<polymer-element name="bookmarks-category-card" attributes="category">
+  <template>
+    <link rel="stylesheet" href="bookmarks-category-card.css">
+      
+    <section id="{{category.id}}">
+      <a href="category/{{category.id}}/">
+        <h2>{{category.name}}</h2>
+      </a>
+    </section>
+
+  </template>
+  <script src="bookmarks-category-card.js"></script>
+</polymer-element>

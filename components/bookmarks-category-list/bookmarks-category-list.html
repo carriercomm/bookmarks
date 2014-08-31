@@ -1,0 +1,12 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../bookmarks-category-card/bookmarks-category-card.html">
+
+<polymer-element name="bookmarks-category-list" attributes="categories" noscript>
+  <template>
+
+    <template repeat="{{category in categories}}">
+      <bookmarks-category-card category="{{category}}"></bookmarks-category-card>
+    </template>
+    
+  </template>
+</polymer-element>

@@ -1,0 +1,25 @@
+{
+  "name": "Bookmarks",
+  "version": "0.0.1",
+  "authors": [
+    "Erwan Martin <contact@erwanmartin.fr>"
+  ],
+  "description": "Bookmarks app",
+  "homepage": "http://github.com/erwamartin/bookmarks/",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#latest",
+    "font-roboto": "Polymer/font-roboto#latest",
+    "flatiron-director": "PolymerLabs/flatiron-director#latest",
+    "core-scaffold": "Polymer/core-scaffold#latest",
+    "core-header-panel": "Polymer/core-header-panel#latest",
+    "core-toolbar": "Polymer/core-toolbar#latest",
+    "core-menu": "Polymer/core-menu#latest",
+    "core-item": "Polymer/core-item#latest",
+    "core-animated-pages": "Polymer/core-animated-pages#latest",
+    "core-ajax": "Polymer/core-ajax#latest",
+    "paper-input": "Polymer/paper-input#latest",
+    "paper-fab": "Polymer/paper-fab#latest"
+  }
+}

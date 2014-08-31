@@ -1,0 +1,42 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../flatiron-director/flatiron-director.html">
+<link rel="import" href="../core-scaffold/core-scaffold.html">
+<link rel="import" href="../core-header-panel/core-header-panel.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../core-menu/core-menu.html">
+<link rel="import" href="../core-item/core-item.html">
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../bookmarks-login/bookmarks-login.html">
+<link rel="import" href="../bookmarks-list/bookmarks-list.html">
+
+<polymer-element name="bookmarks-app">
+  <template>
+    <link rel="stylesheet" href="bookmarks-app.css">
+
+    <flatiron-director route="{{route}}" autoHash></flatiron-director>
+
+    <core-scaffold>
+      <core-header-panel class="left" navigation flex mode="seamed">
+        <core-toolbar>Bookmarks</core-toolbar>
+        <core-menu valueattr="id" id="main_menu">
+          <core-item id="latest" label="Récents" icon="schedule"></core-item>
+          <core-item id="categories" label="Catégories" icon="apps"></core-item>
+        </core-menu>
+      </core-header-panel>
+
+      <core-animated-pages transitions="cross-fade-all">
+        <section id="login">
+          <bookmarks-login></bookmarks-login>
+        </section>
+        <section id="latest">
+          <bookmarks-list token="{{user.token}}"></bookmarks-list>
+        </section>
+        <section id="categories">
+          <p>Catégories</p>
+        </section>
+      </core-animated-pages>
+    </core-scaffold>
+    
+  </template>
+  <script src="bookmarks-app.js"></script>
+</polymer-element>

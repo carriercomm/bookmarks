@@ -1,0 +1,17 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+
+<polymer-element name="bookmarks-login">
+  <template>
+    <link rel="stylesheet" href="bookmarks-login.css">
+
+    <section hidden?="{{!displayForm}}">
+      <h1>Bookmarks</h1>
+      <paper-input label="YOUR TOKEN" id="token"></paper-input>
+      <paper-fab icon="check" id="submit"></paper-fab>
+    </section>
+    
+  </template>
+  <script src="bookmarks-login.js"></script>
+</polymer-element>

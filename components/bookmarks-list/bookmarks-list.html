@@ -1,0 +1,16 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<link rel="import" href="../bookmarks-card/bookmarks-card.html">
+
+<polymer-element name="bookmarks-list" attributes="token">
+  <template>
+    <link rel="stylesheet" href="bookmarks-list.css">
+    <core-ajax></core-ajax>
+
+    <template repeat="{{bookmark in bookmarks}}">
+      <bookmarks-card bookmark="{{bookmark}}"></bookmarks-card>
+    </template>
+    
+  </template>
+  <script src="bookmarks-list.js"></script>
+</polymer-element>

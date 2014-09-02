@@ -1,0 +1,42 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<link rel="import" href="../core-scaffold/core-scaffold.html">
+<link rel="import" href="../core-header-panel/core-header-panel.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../core-menu/core-menu.html">
+<link rel="import" href="../core-item/core-item.html">
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../bookmarks-list/bookmarks-list.html">
+<link rel="import" href="../bookmarks-category-list/bookmarks-category-list.html">
+
+<polymer-element name="bookmarks-pages" attributes="route user">
+  <template>
+    <link rel="stylesheet" href="bookmarks-pages.css">
+
+    <core-ajax></core-ajax>
+
+    <core-scaffold>
+      <core-header-panel class="left" navigation flex mode="seamed">
+        <core-toolbar>Bookmarks</core-toolbar>
+        <core-menu valueattr="id" id="main_menu">
+          <core-item id="bookmarks-list" label="Récents" icon="schedule"></core-item>
+          <core-item id="categories" label="Catégories" icon="apps"></core-item>
+        </core-menu>
+      </core-header-panel>
+
+      <core-animated-pages transitions="cross-fade-all">
+        <section id="login">
+          <bookmarks-login></bookmarks-login>
+        </section>
+        <section id="bookmarks-list">
+          <bookmarks-list bookmarks="{{bookmarks}}"></bookmarks-list>
+        </section>
+        <section id="categories">
+          <bookmarks-category-list categories="{{categories}}"></bookmarks-category-list>
+        </section>
+      </core-animated-pages>
+    </core-scaffold>
+    
+  </template>
+  <script src="bookmarks-pages.js"></script>
+</polymer-element>

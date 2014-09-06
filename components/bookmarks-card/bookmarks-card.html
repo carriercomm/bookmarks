@@ -4,12 +4,12 @@
   <template>
     <link rel="stylesheet" href="bookmarks-card.css">
       
-    <section id="{{bookmark.bk_id}}">
+    <section id="{{bookmark.id}}">
       <a href="//{{bookmark.url}}" target="_blank">
         <h2>{{bookmark.title}}</h2>
       </a>
-      <p class="date">{{bookmark.creation_date}}</p>
-      <template if="{{bookmark.list_name}}">
+      <p class="date">{{bookmark.dateAdded}}</p>
+      <template if="{{bookmark.title}}">
         <a class="list">#{{bookmark.list_name}}</a>
       </template>
       

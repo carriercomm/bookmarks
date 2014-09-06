@@ -3,6 +3,22 @@ core-animated-pages {
   height: 100%;
 }
 
-section#login {
-  background: rgba(175,12,38,.7)
+:host /deep/ core-toolbar {
+  background : rgba(175,12,38,.7);
+  color: #FFF;
+}
+
+core-header-panel.left core-toolbar {
+  padding-left: .8em;
+  margin-bottom: 1em;
+}
+
+core-header-panel.left core-menu#main_menu core-item {
+  padding-left: .8em;
+  margin: .3em 0;
+  cursor: pointer;
+}
+
+core-header-panel /deep/ #mainPanel {
+  background: #FFF;
 }

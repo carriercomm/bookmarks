@@ -1,55 +1,111 @@
 Polymer('bookmarks-app', {
   ready : function() {
-    this.pages    = this.shadowRoot.querySelector('core-animated-pages');
-    this.appPages = this.shadowRoot.querySelector('bookmarks-pages');
-    this.login    = this.shadowRoot.querySelector('bookmarks-login');
-    this.ajax     = this.shadowRoot.querySelector('core-ajax');
+    this.menu  = this.shadowRoot.querySelector('core-menu');
+    this.pages = this.shadowRoot.querySelector('core-animated-pages');
 
-    this.user = {};
-    this.user.token = this.getToken.call(this);
+    this.currentPage = null;
+    this.bookmarks = [];
 
-    if (!this.user.token) pageId = 'login';
-    else                  pageId = 'pages';
+    this.addEvents();
 
-    this.changePage.call(this, pageId);
-
-    this.addEvents.call(this);
+    this.changePage('bookmarks-list');
   },
   addEvents : function() {
+
     var _this = this;
 
-    this.login.addEventListener('submit-token', function(e){
-      _this.testToken.call(_this, e.detail.token, function(){
-        _this.appPages.fire('load');
-        _this.changePage.call(_this, 'pages');
-      },
-      function(){
-        console.log('Token error');
-      });
+    this.addEventListener('load', function(){
+      _this.changePage(_this.currentPage);
     });
+
+    this.menu.addEventListener('core-select', function(e){
+      var pageId = e.detail.item.id;
+      if (e.detail.isSelected)
+        _this.changePage(pageId);
+    });
+
+    this.addEventListener('category-selected', function(e){
+      var categoryName = e.detail.name;
+      this.bookmarks = null;
+      this.getCategory(categoryName);
+      this.changePage('bookmarks-list', false);
+      this.menu.selected = null;
+    });
+
+    /*this.ajax.addEventListener('core-response', function(e){
+      var response = e.detail.response;
+      if (response.is_error) {
+        console.log('Error');
+        return;
+      }
+
+      var dataType = _this.ajax.getAttribute('data-type');
+
+      switch (dataType) {
+        case 'get-bookmarks':
+          _this.bookmarks = response;
+          break;
+        case 'get-category':
+          _this.bookmarks = response;
+          break;
+        case 'get-categories':
+          _this.categories = response;
+      }
+    });*/
   },
-  changePage : function(pageId, changeRoute, loadData) {
+  changePage : function(pageId, loadData) {
     var tagetPage = this.shadowRoot.querySelector('section#' + pageId);
     if (tagetPage) {
       var indexPage = Array.prototype.indexOf.call(tagetPage.parentNode.children, tagetPage);
       this.pages.selected = indexPage;
     }
-  },
-  testToken : function(token, success, error) {
-    this.setToken.call(this, token);
-    success.call(this);
-  },
-  getToken : function() {
-    var token = null;
-    if (typeof localStorage!='undefined') {
-      token = localStorage.getItem('token');
+
+    if (loadData !== false) {
+      switch (pageId) {
+        case 'bookmarks-list':
+          this.bookmarks = null;
+          this.getBookmarks();
+          break;
+        case 'categories':
+          this.categories = null;
+          this.getCategories();
+      }
     }
-    return token;
+
+    this.currentPage = pageId;
   },
-  setToken : function(token) {
-    this.user.token = token;
-    if (typeof localStorage!='undefined') {
-      localStorage.setItem('token', token);
+  getBookmarks : function() {
+    var _this = this;
+    chrome.bookmarks.getTree(function(results){
+      _this.loadBookmarks(results);
+    });
+  },
+  loadBookmarks : function(results) {
+    var bookmarks = this.extractBookmarks(results);
+    this.bookmarks = bookmarks.slice(0, 20);
+  },
+  extractBookmarks : function(group, array) {
+    if (!array) array = [];
+    for (var i = 0, len = group.length; i < len; i++) {
+      var element = group[i];
+      if (element.url) {
+        array.push(element);
+      } else if (element.children) {
+        array = this.extractBookmarks(element.children, array);
+      }
     }
+    return array;
+  },
+  getCategory : function(categoryName) {
+    /*var params = {
+      token : this.user.token
+    };
+    this.callAjax.call(this, 'http://devapi.saved.io/v1/bookmarks/' + categoryName, 'get-category', params, 'json', 'GET');*/
+  },
+  getCategories : function() {
+    /*var params = {
+      token : this.user.token
+    };
+    this.callAjax.call(this, 'http://devapi.saved.io/v1/lists', 'get-categories', params, 'json', 'GET');*/
   }
 });

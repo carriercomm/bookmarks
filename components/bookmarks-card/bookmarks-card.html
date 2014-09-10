@@ -1,11 +1,11 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="bookmarks-card" attributes="bookmark">
   <template>
     <link rel="stylesheet" href="bookmarks-card.css">
       
     <section id="{{bookmark.id}}">
-      <a href="//{{bookmark.url}}" target="_blank">
+      <a href="{{bookmark.url}}" target="_blank">
         <h2>{{bookmark.title}}</h2>
       </a>
       <p class="date">{{bookmark.dateAdded}}</p>

@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../bookmarks-card/bookmarks-card.html">
 
-<polymer-element name="bookmarks-list" attributes="bookmarks">
+<polymer-element name="bookmarks-list" attributes="bookmarks" noscript>
   <template>
 
     <template repeat="{{bookmark in bookmarks}}">
@@ -9,14 +9,4 @@
     </template>
     
   </template>
-  <script>
-  Polymer('bookmarks-list', {
-    bookmarksChanged : function(oldB, newB){
-      console.log(typeof newB);
-      console.log(newB);
-      console.log(newB.length);
-      console.log(newB[0]);
-    }
-  });
-  </script>
 </polymer-element>

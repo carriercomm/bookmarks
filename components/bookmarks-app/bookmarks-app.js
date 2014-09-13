@@ -1,7 +1,8 @@
 Polymer('bookmarks-app', {
   ready : function() {
-    this.menu  = this.shadowRoot.querySelector('core-menu');
-    this.pages = this.shadowRoot.querySelector('core-animated-pages');
+    this.menu        = this.shadowRoot.querySelector('core-menu');
+    this.pages       = this.shadowRoot.querySelector('core-animated-pages');
+    this.mainContent = this.shadowRoot.querySelector('core-scaffold::shadow core-header-panel[main]');
 
     this.currentPage = null;
     this.bookmarks = [];
@@ -30,6 +31,15 @@ Polymer('bookmarks-app', {
       this.getCategory(categoryName);
       this.changePage('bookmarks-list', false);
       this.menu.selected = null;
+    });
+
+    this.mainContent.addEventListener('scroll', function(e){
+      if (e.detail && e.detail.target) {
+        var scroll = (e.detail.target.clientHeight + e.detail.target.scrollTop) / e.detail.target.scrollHeight;
+        if (scroll > 0.9 && _this.bookmarksCollection) {
+          _this.loadBookmarks();
+        }
+      }
     });
 
     /*this.ajax.addEventListener('core-response', function(e){
@@ -64,6 +74,7 @@ Polymer('bookmarks-app', {
       switch (pageId) {
         case 'bookmarks-list':
           this.bookmarks = null;
+          this.bookmarksLimit = 0;
           this.getBookmarks();
           break;
         case 'categories':
@@ -77,12 +88,17 @@ Polymer('bookmarks-app', {
   getBookmarks : function() {
     var _this = this;
     chrome.bookmarks.getTree(function(results){
-      _this.loadBookmarks(results);
+      if (results) {
+        _this.loadBookmarks(results);
+      }
     });
   },
   loadBookmarks : function(results) {
-    var bookmarks = this.extractBookmarks(results);
-    this.bookmarks = bookmarks.slice(0, 20);
+    if (!this.bookmarksCollection) {
+      this.bookmarksCollection = this.extractBookmarks(results);
+    }
+    this.bookmarksLimit += 20;
+    this.bookmarks = this.bookmarksCollection.slice(0, this.bookmarksLimit);
   },
   extractBookmarks : function(group, array) {
     if (!array) array = [];

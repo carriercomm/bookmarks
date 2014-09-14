@@ -37,31 +37,16 @@ Polymer('bookmarks-app', {
       if (e.detail && e.detail.target) {
         var scroll = (e.detail.target.clientHeight + e.detail.target.scrollTop) / e.detail.target.scrollHeight;
         if (scroll > 0.9 && _this.bookmarksCollection) {
-          _this.loadBookmarks();
+          _this.displayBookmarks();
         }
       }
     });
 
-    /*this.ajax.addEventListener('core-response', function(e){
-      var response = e.detail.response;
-      if (response.is_error) {
-        console.log('Error');
-        return;
+    this.mainContent.addEventListener('category-selected', function(e){
+      if (e.detail.id) {
+        _this.getCategory(e.detail.id);
       }
-
-      var dataType = _this.ajax.getAttribute('data-type');
-
-      switch (dataType) {
-        case 'get-bookmarks':
-          _this.bookmarks = response;
-          break;
-        case 'get-category':
-          _this.bookmarks = response;
-          break;
-        case 'get-categories':
-          _this.categories = response;
-      }
-    });*/
+    });
   },
   changePage : function(pageId, loadData) {
     var tagetPage = this.shadowRoot.querySelector('section#' + pageId);
@@ -79,7 +64,7 @@ Polymer('bookmarks-app', {
           break;
         case 'categories':
           this.categories = null;
-          this.getCategories();
+          this.getCategory(0);
       }
     }
 
@@ -93,20 +78,24 @@ Polymer('bookmarks-app', {
       }
     });
   },
+  displayBookmarks : function(results) {
+    this.bookmarksLimit += 20;
+    this.bookmarks = this.bookmarksCollection.slice(0, this.bookmarksLimit);
+  },
   loadBookmarks : function(results) {
     if (!this.bookmarksCollection) {
       var data = this.extractBookmarks(results);
       this.bookmarksCollection  = data.bookmarks;
       this.categoriesCollection = data.categories;
     }
-    this.bookmarksLimit += 20;
-    this.bookmarks = this.bookmarksCollection.slice(0, this.bookmarksLimit);
+    this.displayBookmarks();
   },
   extractBookmarks : function(group, bookmarks, categories) {
     if (!bookmarks)  bookmarks = [];
     if (!categories) categories = [];
     var currentCategories = {
-      title : group.title,
+      id       : group.id,
+      title    : group.title,
       children : []
     };
     if (group.children) {
@@ -127,16 +116,15 @@ Polymer('bookmarks-app', {
       categories : categories
     };
   },
-  getCategory : function(categoryName) {
-    /*var params = {
-      token : this.user.token
-    };
-    this.callAjax.call(this, 'http://devapi.saved.io/v1/bookmarks/' + categoryName, 'get-category', params, 'json', 'GET');*/
+  getCategory : function(id) {
+    var _this = this;
+    chrome.bookmarks.getChildren(id.toString(), function(results){
+      if (results) {
+        _this.loadCategories(results);
+      }
+    });
   },
-  getCategories : function() {
-    /*var params = {
-      token : this.user.token
-    };
-    this.callAjax.call(this, 'http://devapi.saved.io/v1/lists', 'get-categories', params, 'json', 'GET');*/
+  loadCategories : function(list) {
+    this.categories = list;
   }
 });

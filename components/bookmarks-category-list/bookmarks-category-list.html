@@ -4,8 +4,13 @@
 <polymer-element name="bookmarks-category-list" attributes="categories" noscript>
   <template>
 
-    <template repeat="{{category in categories}}">
-      <bookmarks-category-card category="{{category}}"></bookmarks-category-card>
+    <template repeat="{{elements in categories}}">
+      <template if="{{elements.url}}">
+        <bookmarks-card bookmark="{{elements}}"></bookmarks-card>
+      </template>
+      <template if="{{!elements.url}}">
+        <bookmarks-category-card category="{{elements}}"></bookmarks-category-card>
+      </template>
     </template>
     
   </template>

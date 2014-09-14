@@ -6,7 +6,7 @@ Polymer('bookmarks-category-card', {
     this.categoryLink.addEventListener('click', function(e){
       e.preventDefault();
       _this.fire('category-selected', {
-        name : _this.category.name
+        id : _this.category.id
       })
     });
   }

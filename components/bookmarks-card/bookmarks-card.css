@@ -9,8 +9,13 @@ a {
 }
 
 h2 {
+  width : 90%;
   margin: 0 0 .5em 0;
   color : #af0c26;
+}
+
+core-icon {
+  color: #680A19;
 }
 
 p.date, a.list {

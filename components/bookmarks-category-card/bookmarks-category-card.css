@@ -9,6 +9,10 @@ a {
 }
 
 h2 {
-  margin: 0;
+  width : 90%;
   color : #af0c26;
+}
+
+core-icon {
+  color: #680A19;
 }

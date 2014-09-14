@@ -1,11 +1,13 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
 
 <polymer-element name="bookmarks-card" attributes="bookmark">
   <template>
     <link rel="stylesheet" href="bookmarks-card.css">
       
     <section id="{{bookmark.id}}">
-      <a href="{{bookmark.url}}" target="_blank">
+      <a href="{{bookmark.url}}" target="_blank" layout horizontal>
+        <core-icon icon="bookmark"></core-icon>
         <h2>{{bookmark.title}}</h2>
       </a>
       <p class="date">{{bookmark.dateAdded}}</p>

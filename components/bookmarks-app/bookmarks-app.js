@@ -89,28 +89,43 @@ Polymer('bookmarks-app', {
     var _this = this;
     chrome.bookmarks.getTree(function(results){
       if (results) {
-        _this.loadBookmarks(results);
+        _this.loadBookmarks(results[0]);
       }
     });
   },
   loadBookmarks : function(results) {
     if (!this.bookmarksCollection) {
-      this.bookmarksCollection = this.extractBookmarks(results);
+      var data = this.extractBookmarks(results);
+      this.bookmarksCollection  = data.bookmarks;
+      this.categoriesCollection = data.categories;
     }
     this.bookmarksLimit += 20;
     this.bookmarks = this.bookmarksCollection.slice(0, this.bookmarksLimit);
   },
-  extractBookmarks : function(group, array) {
-    if (!array) array = [];
-    for (var i = 0, len = group.length; i < len; i++) {
-      var element = group[i];
-      if (element.url) {
-        array.push(element);
-      } else if (element.children) {
-        array = this.extractBookmarks(element.children, array);
+  extractBookmarks : function(group, bookmarks, categories) {
+    if (!bookmarks)  bookmarks = [];
+    if (!categories) categories = [];
+    var currentCategories = {
+      title : group.title,
+      children : []
+    };
+    if (group.children) {
+      for (var i = 0, len = group.children.length; i < len; i++) {
+        var element = group.children[i];
+        if (element.url) {
+          bookmarks.push(element);
+        } else if (element.children) {
+          var subData = this.extractBookmarks(element, bookmarks, []);
+          bookmarks = subData.bookmarks;
+          currentCategories.children.push(subData.categories);
+        }
       }
     }
-    return array;
+    categories = currentCategories;
+    return {
+      bookmarks : bookmarks,
+      categories : categories
+    };
   },
   getCategory : function(categoryName) {
     /*var params = {

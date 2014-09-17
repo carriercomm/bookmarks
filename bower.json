@@ -10,6 +10,7 @@
   "private": true,
   "dependencies": {
     "polymer": "Polymer/polymer#latest",
+    "polymer-filters": "addyosmani/polymer-filters#latest",
     "font-roboto": "Polymer/font-roboto#latest",
     "flatiron-director": "PolymerLabs/flatiron-director#latest",
     "core-scaffold": "Polymer/core-scaffold#latest",

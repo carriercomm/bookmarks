@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-filters/polymer-filters.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
 
 <polymer-element name="bookmarks-card" attributes="bookmark">
@@ -10,10 +11,7 @@
         <core-icon icon="bookmark"></core-icon>
         <h2>{{bookmark.title}}</h2>
       </a>
-      <p class="date">{{bookmark.dateAdded}}</p>
-      <template if="{{bookmark.title}}">
-        <a class="list">#{{bookmark.list_name}}</a>
-      </template>
+      <p class="date">{{bookmark.dateAdded | date('dd/MM/yyyy')}}</p>
       
     </section>
     
